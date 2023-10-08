@@ -1,7 +1,8 @@
+import GalleryPage from "./pages/GalleryPage";
 import "./App.css";
 
 function App() {
-  return <h1>UnsplashView</h1>;
+  return <GalleryPage />;
 }
 
 export default App;
