@@ -1,4 +1,4 @@
-import GalleryPage from "./pages/GalleryPage";
+import GalleryPage from "./pages/GalleryPage/GalleryPage";
 import "./App.css";
 
 function App() {
