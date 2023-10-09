@@ -22,15 +22,16 @@ const GalleryPage = () => {
               count: 20,
               // query: "cars",
             },
+            headers: {
+              "Accept-Version": "v1",
+            },
           }
         );
         setPhotos(response.data);
         setLoading(false);
-        console.log(response.data);
       } catch (error) {
         setError(error);
         setLoading(false);
-        console.error(error);
       }
     };
     fetchPhotos();

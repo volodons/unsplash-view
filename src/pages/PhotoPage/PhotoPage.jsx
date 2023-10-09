@@ -19,6 +19,9 @@ const PhotoPage = () => {
             params: {
               client_id: import.meta.env.VITE_API_KEY,
             },
+            headers: {
+              "Accept-Version": "v1",
+            },
           }
         );
         setPhoto(response.data);
