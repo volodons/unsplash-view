@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Preloader from "../../components/Preloader/Preloader";
 import FullSizePhoto from "../../components/FullSizePhoto/FullSizePhoto";
@@ -16,11 +16,12 @@ const PhotoPage = () => {
         const response = await axios.get(
           `https://api.unsplash.com/photos/${id}`,
           {
-            params: {
-              client_id: import.meta.env.VITE_API_KEY,
-            },
             headers: {
               "Accept-Version": "v1",
+              Authorization: `Client-ID ${import.meta.env.VITE_API_KEY}`,
+            },
+            params: {
+              client_id: import.meta.env.VITE_API_KEY,
             },
           }
         );
@@ -44,11 +45,19 @@ const PhotoPage = () => {
   }
 
   return (
-    <FullSizePhoto
-      src={photo.urls.raw}
-      alt={photo.alt_description}
-      title={photo.alt_description}
-    />
+    <div className="relative">
+      <Link
+        to="/"
+        className="fixed top-4 left-4 flex items-center text-6xl text-white hover:text-gray-300 hover:underline transition duration-300"
+      >
+        &#x2190; Back
+      </Link>
+      <FullSizePhoto
+        src={photo.urls.raw}
+        alt={photo.alt_description}
+        title={photo.alt_description}
+      />
+    </div>
   );
 };
 
