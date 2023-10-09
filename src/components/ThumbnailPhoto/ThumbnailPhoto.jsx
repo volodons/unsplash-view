@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 
-const ThumbnailPhoto = ({ id, src, alt, title }) => {
+const ThumbnailPhoto = ({ id, src, alt, title, authorName }) => {
   return (
-    <Link to={id}>
-      <img id={id} src={src} alt={alt} title={title}></img>
-    </Link>
+    <div>
+      <Link to={id}>
+        <img id={id} src={src} alt={alt} title={title} />
+      </Link>
+      <p>{title}</p>
+      <p>{authorName}</p>
+    </div>
   );
 };
 
