@@ -19,7 +19,7 @@ const GalleryPage = () => {
           {
             params: {
               client_id: import.meta.env.VITE_API_KEY,
-              count: 10,
+              count: 20,
               // query: "cars",
             },
           }
@@ -46,7 +46,7 @@ const GalleryPage = () => {
   // };
 
   return (
-    <>
+    <div className="mx-auto p-4 max-w-screen-xl my-8">
       {/* <div>
         <Link to="/">
           <h1>UnsplashView</h1>
@@ -57,18 +57,20 @@ const GalleryPage = () => {
         </form>
       </div> */}
       {loading && <Preloader />}
-      {photos &&
-        photos.map((photo) => (
-          <ThumbnailPhoto
-            key={photo.id}
-            id={photo.id}
-            src={photo.urls.small}
-            alt={photo.alt_description}
-            title={photo.alt_description}
-            authorName={photo.user.name}
-          />
-        ))}
-    </>
+      <div className="grid grid-cols-3 gap-4">
+        {photos &&
+          photos.map((photo) => (
+            <ThumbnailPhoto
+              key={photo.id}
+              id={photo.id}
+              src={photo.urls.small}
+              alt={photo.alt_description}
+              title={photo.alt_description}
+              authorName={photo.user.name}
+            />
+          ))}
+      </div>
+    </div>
   );
 };
 
