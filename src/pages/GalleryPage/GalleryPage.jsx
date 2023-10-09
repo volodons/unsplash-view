@@ -17,13 +17,13 @@ const GalleryPage = () => {
         const response = await axios.get(
           "https://api.unsplash.com/photos/random",
           {
-            params: {
-              client_id: import.meta.env.VITE_API_KEY,
-              count: 20,
-              // query: "cars",
-            },
             headers: {
               "Accept-Version": "v1",
+              Authorization: `Client-ID ${import.meta.env.VITE_API_KEY}`,
+            },
+            params: {
+              count: 20,
+              // query: "cars",
             },
           }
         );
@@ -48,15 +48,17 @@ const GalleryPage = () => {
 
   return (
     <div className="mx-auto p-4 max-w-screen-xl my-8">
-      {/* <div>
+      <div>
         <Link to="/">
-          <h1>UnsplashView</h1>
+          <h1 className="flex items-center text-3xl font-extrabold text-indigo-600">
+            UnsplashView
+          </h1>
         </Link>
-        <form onSubmit={handlePhotoSearch}>
+        {/* <form onSubmit={handlePhotoSearch}>
           <input type="search" onChange={handleSearchQueryChange} />
           <button onClick={handlePhotoSearch}></button>
-        </form>
-      </div> */}
+        </form> */}
+      </div>
       {loading && <Preloader />}
       <div className="grid grid-cols-3 gap-4">
         {photos &&
