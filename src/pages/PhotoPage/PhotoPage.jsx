@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import { fetchPhoto } from "../../api/api";
 import Preloader from "../../components/Preloader/Preloader";
 import FullSizePhoto from "../../components/FullSizePhoto/FullSizePhoto";
 
@@ -11,27 +11,18 @@ const PhotoPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPhoto = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://api.unsplash.com/photos/${id}`,
-          {
-            headers: {
-              "Accept-Version": "v1",
-              Authorization: `Client-ID ${import.meta.env.VITE_API_KEY}`,
-            },
-          }
-        );
-        setPhoto(response.data);
+        const data = await fetchPhoto(id);
+        setPhoto(data);
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchPhoto();
+    fetchData();
   }, [id]);
 
   return (

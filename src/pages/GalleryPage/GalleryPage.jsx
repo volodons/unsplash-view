@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { searchPhotos } from "../../api/api";
 import { Link } from "react-router-dom";
 import { Stack, Pagination } from "@mui/material";
 import ThumbnailPhoto from "../../components/ThumbnailPhoto/ThumbnailPhoto";
@@ -25,32 +25,23 @@ const GalleryPage = () => {
   };
 
   useEffect(() => {
-    const fetchPhotos = async () => {
+    const fetchPhotosData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "https://api.unsplash.com/search/photos",
-          {
-            headers: {
-              "Accept-Version": "v1",
-              Authorization: `Client-ID ${import.meta.env.VITE_API_KEY}`,
-            },
-            params: {
-              page: currentPage,
-              per_page: photosPerPage,
-              query: searchQuery,
-            },
-          }
+        const data = await searchPhotos(
+          currentPage,
+          photosPerPage,
+          searchQuery
         );
-        setPhotos(response.data.results);
-        setTotalPages(response.data.total_pages);
+        setPhotos(data.results);
+        setTotalPages(data.total_pages);
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
     };
-    fetchPhotos();
+    fetchPhotosData();
   }, [currentPage, searchQuery]);
 
   return (
