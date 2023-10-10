@@ -7,12 +7,13 @@ import FullSizePhoto from "../../components/FullSizePhoto/FullSizePhoto";
 const PhotoPage = () => {
   const { id } = useParams();
   const [photo, setPhoto] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPhoto = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `https://api.unsplash.com/photos/${id}`,
           {
@@ -20,29 +21,18 @@ const PhotoPage = () => {
               "Accept-Version": "v1",
               Authorization: `Client-ID ${import.meta.env.VITE_API_KEY}`,
             },
-            params: {
-              client_id: import.meta.env.VITE_API_KEY,
-            },
           }
         );
         setPhoto(response.data);
-        setLoading(false);
       } catch (error) {
         setError(error);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchPhoto();
   }, [id]);
-
-  if (loading) {
-    return <Preloader />;
-  }
-
-  if (error) {
-    return <div>Error occurred: {error.message}</div>;
-  }
 
   return (
     <div className="relative">
@@ -52,11 +42,26 @@ const PhotoPage = () => {
       >
         &#x2190; Back
       </Link>
-      <FullSizePhoto
-        src={photo.urls.raw}
-        alt={photo.alt_description}
-        title={photo.alt_description}
-      />
+
+      {loading && <Preloader />}
+
+      {error && (
+        <div className="bg-red-500 text-white p-4 fixed top-0 left-0 w-full text-center">
+          {error.response ? (
+            <p>Photo not found. Please try another photo.</p>
+          ) : (
+            <p>Network error. Please check your internet connection.</p>
+          )}
+        </div>
+      )}
+
+      {photo && (
+        <FullSizePhoto
+          src={photo.urls.raw}
+          alt={photo.alt_description}
+          title={photo.alt_description}
+        />
+      )}
     </div>
   );
 };
