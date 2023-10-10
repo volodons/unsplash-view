@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchPhoto } from "../../api/api";
-import Preloader from "../../components/Preloader/Preloader";
+import Preloader from "../../components/common/Preloader/Preloader";
 import FullSizePhoto from "../../components/FullSizePhoto/FullSizePhoto";
 
 const PhotoPage = () => {

@@ -3,7 +3,7 @@ import { searchPhotos } from "../../api/api";
 import { Link } from "react-router-dom";
 import { Stack, Pagination } from "@mui/material";
 import ThumbnailPhoto from "../../components/ThumbnailPhoto/ThumbnailPhoto";
-import Preloader from "../../components/Preloader/Preloader";
+import Preloader from "../../components/common/Preloader/Preloader";
 
 const GalleryPage = () => {
   const [photos, setPhotos] = useState(null);
