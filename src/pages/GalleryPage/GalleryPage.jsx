@@ -1,33 +1,55 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Stack, Pagination } from "@mui/material";
 import ThumbnailPhoto from "../../components/ThumbnailPhoto/ThumbnailPhoto";
 import Preloader from "../../components/Preloader/Preloader";
+// import { useLocation, useHistory } from "react-router-dom";
 
 const GalleryPage = () => {
   const [photos, setPhotos] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   // const [searchQuery, setSearchQuery] = useState("");
+  const [totalPages, setTotalPages] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [photosPerPage] = useState(12);
+
+  // const location = useLocation();
+  // const history = useHistory();
+  // const queryParams = new URLSearchParams(location.search);
+  // const currentPage = parseInt(queryParams.get("page")) || 1;
+
+  // const handleCurrentPageChange = (event, value) => {
+  //   setCurrentPage(value);
+  //   queryParams.set("page", value);
+  //   history.push(`/gallery?${queryParams.toString()}`);
+  // };
+
+  const handleCurrentPageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "https://api.unsplash.com/photos/random",
+          "https://api.unsplash.com/search/photos",
           {
             headers: {
               "Accept-Version": "v1",
               Authorization: `Client-ID ${import.meta.env.VITE_API_KEY}`,
             },
             params: {
-              count: 20,
+              page: currentPage,
+              per_page: photosPerPage,
               // query: "cars",
             },
           }
         );
-        setPhotos(response.data);
+        setPhotos(response.data.results);
+        setTotalPages(response.data.total_pages);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -35,7 +57,7 @@ const GalleryPage = () => {
       }
     };
     fetchPhotos();
-  }, []);
+  }, [currentPage]);
 
   // const handleSearchQueryChange = (e) => {
   //   setSearchQuery(e.target.value);
@@ -73,6 +95,19 @@ const GalleryPage = () => {
             />
           ))}
       </div>
+      {photos && (
+        <div className="flex justify-center my-8">
+          <Stack spacing={2}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={handleCurrentPageChange}
+              variant="outlined"
+              shape="rounded"
+            />
+          </Stack>
+        </div>
+      )}
     </div>
   );
 };
